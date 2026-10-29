@@ -4,7 +4,8 @@
 @inject JsonFileProductService ProductService
 
 <div>
-    <input type="text" class="form-control" placeholder="Search products..." @bind="searchTerm" />
+    <input type="text" class="form-control" placeholder="Search products..." @bind="searchTerm"/>
+    @* <input type="text" class="form-control" placeholder="Search products..." @bind="searchTerm" @bind:event="oninput" /> *@
     <br />
 </div>
 
