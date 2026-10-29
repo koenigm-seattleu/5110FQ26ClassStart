@@ -3,8 +3,13 @@
 @using Microsoft.AspNetCore.Components.Web
 @inject JsonFileProductService ProductService
 
+<div>
+    <input type="text" class="form-control" placeholder="Search products..." @bind="searchTerm" />
+    <br />
+</div>
+
 <div class="card-columns">
-    @foreach (var product in ProductService.GetAllData())
+    @foreach (var product in GetProductList())
     {
         <div class="card">
             <div class="card-img" style="background-image: url('@product.Image');">
@@ -77,6 +82,9 @@
     ProductModel selectedProduct;
     string selectedProductId;
 
+    // Sub String to search on
+    string searchTerm;
+
     void SelectProduct(string productId)
     {
         selectedProductId = productId;
@@ -117,4 +125,17 @@
         selectedProduct = null;
         selectedProductId = null;
     }
+
+    public List<ProductModel> GetProductList()
+    {
+        var ProductList = ProductService.GetAllData().ToList();
+
+        if (string.IsNullOrEmpty(searchTerm))
+        {
+            return ProductList;
+        }
+
+        return ProductList.Where(p => p.Title.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+    }
+
 }
