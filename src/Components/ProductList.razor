@@ -14,8 +14,7 @@
             </div>
             <div class="card-footer">
                 <small class="text-muted">
-                    <button @onclick="(e => SelectProduct(product.Id))"
-                        data-toggle="modal" data-target="#productModal" class="btn btn-primary">
+                    <button type="button" @onclick="() => SelectProduct(product.Id)" class="btn btn-primary">
                         More Info
                     </button>
                 </small>
@@ -26,12 +25,12 @@
 
 @if (selectedProduct != null)
 {
-    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
+    <div class="modal show d-block" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-modal="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="productTitle">@selectedProduct.Title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" aria-label="Close" @onclick="CloseProductModal">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -111,5 +110,11 @@
         System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
         ProductService.AddRating(selectedProductId, rating);
         SelectProduct(selectedProductId);
+    }
+
+    void CloseProductModal()
+    {
+        selectedProduct = null;
+        selectedProductId = null;
     }
 }
